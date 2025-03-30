@@ -10,6 +10,7 @@ const App = () => {
   const [sessions, setSessions] = useState([{ id: 1, name: 'Dự án 1', history: [] }]);
   const [currentSessionId, setCurrentSessionId] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const currentSession = sessions.find((s) => s.id === currentSessionId);
 
@@ -73,12 +74,14 @@ const App = () => {
   return (
     <div className="flex h-screen font-sans bg-slate-100">
       <Sidebar
-        sessions={sessions}
-        currentSessionId={currentSessionId}
-        onNewSession={handleNewSession}
-        onDeleteSession={handleDeleteSession}
-        onSelectSession={setCurrentSessionId}
-        onRenameSession={handleRenameSession}
+          sessions={sessions}
+          currentSessionId={currentSessionId}
+          onNewSession={handleNewSession}
+          onDeleteSession={handleDeleteSession}
+          onSelectSession={setCurrentSessionId}
+          onRenameSession={handleRenameSession}
+          isCollapsed={isSidebarCollapsed}
+          toggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
       />
       <div className="flex flex-col flex-1">
         <Header
