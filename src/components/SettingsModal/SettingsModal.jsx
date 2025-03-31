@@ -3,9 +3,9 @@ import {
   modalOverlay, modalContainer, modalHeader, modalTitle,
   closeButton, listItem, labelText, selectInput
 } from './SettingsModalStyle';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
-const SettingsModal = ({ isOpen, onClose }) => {
-  const [theme, setTheme] = useState('Hệ thống');
+const SettingsModal = ({ isOpen, onClose, theme, setTheme }) => {
   const [language, setLanguage] = useState('Dò tìm tự động');
   const modalRef = useRef();
 
@@ -42,15 +42,11 @@ const SettingsModal = ({ isOpen, onClose }) => {
             &times;
           </button>
         </div>
+        <div className="flex items-center justify-between " style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '10px' }}>
+          <span className="label-with-underline">Chủ đề</span>
+          <ThemeToggle theme={theme} setTheme={setTheme} />
+        </div>
         <ul className="space-y-4">
-          <li className={listItem}>
-            <span className={labelText}>Chủ đề</span>
-            <select className={selectInput} value={theme} onChange={(e) => setTheme(e.target.value)}>
-              <option>Hệ thống</option>
-              <option>Tối</option>
-              <option>Sáng</option>
-            </select>
-          </li>
           <li className={listItem}>
             <span className={labelText}>Ngôn ngữ</span>
             <select className={selectInput} value={language} onChange={(e) => setLanguage(e.target.value)}>
@@ -59,7 +55,7 @@ const SettingsModal = ({ isOpen, onClose }) => {
               <option>English</option>
             </select>
           </li>
-          {/* Thêm các mục khác tương tự */}
+          
         </ul>
       </div>
     </div>
