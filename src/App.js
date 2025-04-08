@@ -18,15 +18,17 @@ const App = () => {
   const handleSend = async (question) => {
     setLoading(true);
     try {
-      // Giả lập gọi API backend xử lý câu hỏi
-      const fakeAnswer = await new Promise(resolve =>
-        setTimeout(() => resolve('Đây là câu trả lời mô phỏng cho câu hỏi: ' + question), 2000)
-      );
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+      const data = await res.json();
       const updatedSessions = sessions.map((session) => {
         if (session.id === currentSessionId) {
           return {
             ...session,
-            history: [...session.history, { question, answer: fakeAnswer }],
+            history: [...session.history, { question, answer: data.answer }],
           };
         }
         return session;
@@ -40,11 +42,21 @@ const App = () => {
   };
 
   //  Gửi link YouTube
-  const handleSubmitYoutubeLink = () => {
+  const handleSubmitYoutubeLink = async () => {
     if (!youtubeLink.trim()) return;
-    alert(`📺 Link YouTube đã gửi: ${youtubeLink}`);
-    // TODO: Gọi API backend xử lý video từ link này nếu cần
+    try {
+      const res = await fetch("http://localhost:8000/video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ youtube_link: youtubeLink }),
+      });
+      const data = await res.json();
+      alert(data.message); // hoặc hiển thị trong chat history
+    } catch (error) {
+      console.error(error);
+    }
   };
+  
 
   //  Tạo dự án mới
   const handleNewSession = () => {
